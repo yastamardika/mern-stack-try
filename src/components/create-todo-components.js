@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import axios from 'axios';
+
 export default class CreateTodo extends Component {
   constructor(props) {
     super(props);
@@ -7,6 +9,7 @@ export default class CreateTodo extends Component {
     this.onChangedTodoDesc = this.onChangedTodoDesc.bind(this);
     this.onChangedTodoMust = this.onChangedTodoMust.bind(this);
     this.onChangedTodoPrior = this.onChangedTodoPrior.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       todo_desc: "",
@@ -41,6 +44,17 @@ export default class CreateTodo extends Component {
     console.log(`Todo Description: ${this.state.todo_desc}`);
     console.log(`Todo Must: ${this.state.todo_must}`);
     console.log(`Todo Priority: ${this.state.todo_prior}`);
+
+    const newTodo = {
+      todo_desc: this.state.todo_desc,
+      todo_must: this.state.todo_must,
+      todo_prior: this.state.todo_prior,
+      todo_done: this.state.todo_done
+    };
+
+    axios.post('http://localhost:4000/todos/add', newTodo)
+    .then(res => console.log(res.data));
+
 
     this.setState({
       todo_desc: "",
